@@ -124,6 +124,51 @@ app.post('/chat/send', (req, res) => {
   
     res.json({ success: true, message: 'Message sent.' });
   });
+
+
+  const validatePurchaseCode = (purchaseCode) => {
+    // Simulated response data
+    const simulatedResponse = {
+        error: 0,  // 0 for success
+        purchase_code: purchaseCode,
+        token: 'example_token',
+        username: 'example_username',
+        item_id: 'example_item_id',
+        message: 'Purchase code validated successfully.'
+    };
+
+    return simulatedResponse;
+};
+
+// Endpoint to validate purchase code
+app.post('/validate', (req, res) => {
+    const { purchase_code } = req.body;
+
+    if (!purchase_code) {
+        return res.status(400).json({
+            error: true,
+            message: 'Purchase code is required.'
+        });
+    }
+
+    // Simulate validation
+    const response = validatePurchaseCode(purchase_code);
+
+    // Check for error in response
+    if (response.error === 0) {
+        res.json({
+            error: false,
+            message: response.message,
+            data: response
+        });
+    } else {
+        res.status(400).json({
+            error: true,
+            message: 'Invalid purchase code.'
+        });
+    }
+});
+
   
   // Upgrad
 // Upgrade HTTP server to handle WebSocket connections
